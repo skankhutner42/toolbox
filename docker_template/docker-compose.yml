@@ -2,19 +2,30 @@ version: "3.1"
 
 
 services:
-    postgres:
-      container_name: postgres15.6
-      image: postgres:15.4
-      environment:
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD= // your password
-        - TZ=Asia/Shanghai
-      ports:
-        - "15432:5432"
-      volumes:
-#        路径为本机:docker 需要替换
-        - /volume1/docker/postgres15.6/data:/var/lib/postgresql/data
-        - /volume1/docker/postgres15.6/logs:/var/log/postgresql
-        - /volume1/docker/postgres15.6/config/:/usr/share/postgresql/postgresql.conf
-      restart: always
-#      command: ["postgres", "-c", "config_file=/usr/share/postgresql/postgresql.conf"]
+  postgres:
+    container_name: postgres15.6
+    image: postgres:15.4
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD= // your password
+      - TZ=Asia/Shanghai
+    ports:
+      - "15432:5432"
+    volumes:
+      #        路径为本机:docker 需要替换
+      - /home/kimi/docker/postgres15.6/data:/var/lib/postgresql/data
+      - /home/kimi/docker/postgres15.6/logs:/var/log/postgresql
+    #        - /volume1/docker/postgres15.6/config/:/usr/share/postgresql/postgresql.conf
+    restart: always
+  #      command: ["postgres", "-c", "config_file=/usr/share/postgresql/postgresql.conf"]
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "16379:6379"
+    volumes:
+      - /home/kimi/docker/redis/data:/data
+      - /home/kimi/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: [ "redis-server","/usr/local/etc/redis/redis.conf" ]
+    restart: always
